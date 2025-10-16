@@ -10,6 +10,7 @@ type Props = {
 
 export default function AddTransaction({ onAdd, categories = defaultCategories }: Props) {
     const [showForm, setShowForm] = useState(false);
+    const [errors, setErrors] = useState({ category: false, amount: false });
     const [newTransaction, setNewTransaction] = useState<Transaction>({
         type: "expense",
         category: "",
@@ -19,7 +20,17 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
     });
 
     const handleSubmit = () => {
-        if (newTransaction.category && newTransaction.amount) {
+
+        // check for errors
+        const newErrors = {
+            category: !newTransaction.category,
+            amount: !newTransaction.amount || parseFloat(newTransaction.amount) <= 0,
+        }
+        setErrors(newErrors);
+
+        // only submit if no errors
+
+        if (!newErrors.category && !newErrors.amount) {
             onAdd(newTransaction);
             setNewTransaction({
                 type: "expense",
@@ -28,6 +39,7 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                 description: "",
                 date: new Date().toISOString().split("T")[0],
             });
+            setErrors({ category: false, amount: false });
             setShowForm(false);
         }
     };
@@ -55,7 +67,7 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                 <select
                                     value={newTransaction.type}
                                     onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value as Transaction["type"] })}
-                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 >
                                     <option value="expense">Expense</option>
                                     <option value="income">Income</option>
@@ -63,11 +75,20 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                             </div>
                             {/* categories */}
                             <div>
-                                <label className="block text-sm font-medium text-stone-700 mb-1">Category</label>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">
+                                    Category <span className="text-red-500">*</span>
+                                </label>
                                 <select
                                     value={newTransaction.category}
-                                    onChange={(e) => setNewTransaction({ ...newTransaction, category: e.target.value })}
-                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    onChange={(e) => {
+                                        setNewTransaction({ ...newTransaction, category: e.target.value });
+                                        // Clear error if category is selected
+                                        if (e.target.value) {
+                                            setErrors({ ...errors, category: false });
+                                        }
+                                    }
+                                    }
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 >
                                     <option value="">Select category</option>
                                     {categories.map((cat) => (
@@ -76,16 +97,34 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                         </option>
                                     ))}
                                 </select>
+                                {errors.category && (
+                                    <p className="mt-2 ml-2 text-xs text-red-500">
+                                        Please select a category
+                                    </p>
+                                )}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-stone-700 mb-1">Amount</label>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">
+                                    Amount <span className="text-red-500">*</span>
+                                </label>
                                 <input
                                     type="number"
                                     value={newTransaction.amount}
-                                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
-                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    onChange={(e) => {
+                                        setNewTransaction({ ...newTransaction, amount: e.target.value });
+                                        // Clear error if amount becomes valid
+                                        if (e.target.value && parseFloat(e.target.value) > 0) {
+                                            setErrors({ ...errors, amount: false });
+                                        }
+                                    }}
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     placeholder="Enter amount"
                                 />
+                                {errors.amount && (
+                                    <p className="mt-2 ml-2 text-xs text-red-500">
+                                        {!newTransaction.amount ? 'Amount is required' : 'Amount must be greater than 0'}
+                                    </p>
+                                )}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-stone-700 mb-1">Date</label>
@@ -93,7 +132,7 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                     type="date"
                                     value={newTransaction.date}
                                     onChange={(e) => setNewTransaction({ ...newTransaction, date: e.target.value })}
-                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 />
                             </div>
                             <div className="col-span-2">
@@ -102,7 +141,7 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                     type="text"
                                     value={newTransaction.description}
                                     onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
-                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     placeholder="Enter description"
                                 />
                             </div>
