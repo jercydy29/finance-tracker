@@ -22,7 +22,7 @@ export default function Dashboard() {
                     <p className="text-stone-600">Track your expenses and manage your budget</p>
                 </div>
 
-                <StatsCards />
+                <StatsCards transactions={transactions} />
 
                 <ChartsPlaceholder />
 
