@@ -41,9 +41,8 @@ export default function ChartsPlaceholder({ transactions }: Props) {
                                     data={chartData}
                                     cx="50%"
                                     cy="50%"
-                                    labelLine={true}
-                                    label={({ name, percent }) =>
-                                        `${name}: ${(percent * 100).toFixed(0)}`}
+                                    labelLine={false}
+                                    label={({ name }) => name}
                                     outerRadius={80}
                                     fill='#8884d8'
                                     dataKey="value"
