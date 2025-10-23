@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
-import { categories as defaultCategories } from "@/features/transactions/constants";
+// import { categories as defaultCategories } from "@/features/transactions/constants";
+import { expenseCategories, incomeCategories } from "@/features/transactions/constants";
 import type { Transaction } from "@/features/transactions/types";
+
 
 type Props = {
     onAdd: (t: Transaction) => void;
-    categories?: string[];
 };
 
-export default function AddTransaction({ onAdd, categories = defaultCategories }: Props) {
+export default function AddTransaction({ onAdd }: Props) {
     const [showForm, setShowForm] = useState(false);
     const [errors, setErrors] = useState({ category: false, amount: false });
     const [newTransaction, setNewTransaction] = useState<Transaction>({
@@ -66,7 +67,11 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                 <label className="block text-sm font-medium text-stone-700 mb-1">Type</label>
                                 <select
                                     value={newTransaction.type}
-                                    onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value as Transaction["type"] })}
+                                    onChange={(e) => setNewTransaction({
+                                        ...newTransaction,
+                                        type: e.target.value as Transaction["type"],
+                                        category: ""
+                                    })}
                                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 >
                                     <option value="expense">Expense</option>
@@ -91,7 +96,7 @@ export default function AddTransaction({ onAdd, categories = defaultCategories }
                                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 >
                                     <option value="">Select category</option>
-                                    {categories.map((cat) => (
+                                    {(newTransaction.type === 'expense' ? expenseCategories : incomeCategories).map((cat) => (
                                         <option key={cat} value={cat}>
                                             {cat}
                                         </option>

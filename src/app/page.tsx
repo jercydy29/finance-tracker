@@ -1,14 +1,31 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Transaction } from '@/features/transactions/types'
 import AddTransaction from '@/components/AddTransaction'
 import TransactionsSection from '@/components/TransactionsSection'
 import StatsCards from '@/components/StatsCards'
 import ChartsPlaceholder from '@/components/ChartsPlaceholder'
 
+const STORAGE_KEY = 'finance-tracker-transactions';
+
 export default function Dashboard() {
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+
+    // Load transactions from localStorage on component mount
+    useEffect(() => {
+        const savedTransactions = localStorage.getItem(STORAGE_KEY);
+        if (savedTransactions) {
+            setTransactions(JSON.parse(savedTransactions));
+        }
+    }, []); // Empty array means this runs once when component mounts
+
+    // Save transactions to localStorage whenever they change
+    useEffect(() => {
+        if (transactions.length > 0) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+        }
+    }, [transactions]); // This runs whenever transactions changes
 
     const handleAdd = (t: Transaction) => {
         setTransactions((prev) => [...prev, t])

@@ -38,13 +38,15 @@ export default function ChartsPlaceholder({ transactions }: Props) {
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={chartData}
+                                    data={chartData} //passed the actual array data to the Piechart
+                                    // cx and cy is to center it in the middle
                                     cx="50%"
                                     cy="50%"
-                                    labelLine={false}
-                                    label={({ name }) => name}
-                                    outerRadius={80}
-                                    fill='#8884d8'
+                                    labelLine={false} // whether to draw. line to the label or not
+                                    label={({ name }) => name} //each slices of pie label
+                                    innerRadius={20} //create the hole inside the piechart
+                                    outerRadius={80} // to determine how big is the piechart form the center
+                                    fill='#8884d8' // default fill color 
                                     dataKey="value"
                                 >
                                     {chartData.map((entry, index) => (
@@ -52,11 +54,21 @@ export default function ChartsPlaceholder({ transactions }: Props) {
                                     ))}
                                 </Pie>
                                 <Tooltip formatter={(value) => `$${value}`} />
-                                <Legend />
+                                <Legend
+                                    iconType="circle"っっwっっw
+                                    iconSize={12}
+                                    wrapperStyle={
+                                        {
+                                            fontSize: '12px',
+                                        }
+                                    }
+                                />
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
-                        <p>hi</p>
+                        <div className="h-64 bg-stone-50 rounded-lg flex items-center justify-center">
+                            <p className="text-stone-500">No data available</p>
+                        </div>
                     )}
 
                 </div>
@@ -64,7 +76,7 @@ export default function ChartsPlaceholder({ transactions }: Props) {
             <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
                 <h3 className="text-lg font-medium text-stone-800 mb-4">Monthly Trends</h3>
                 <div className="h-64 bg-stone-50 rounded-lg flex items-center justify-center">
-                    <p className="text-stone-500">Chart will go here</p>
+                    <p className="text-stone-500">No data available</p>
                 </div>
             </div>
         </div >
