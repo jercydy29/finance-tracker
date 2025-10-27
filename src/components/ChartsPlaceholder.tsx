@@ -9,8 +9,21 @@ type Props = {
 }
 export default function ChartsPlaceholder({ transactions }: Props) {
 
+    //Get current month and year
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
+    const year = now.getFullYear(); //2025
+
     // Filter only expense
-    const expenses = transactions.filter(t => t.type === 'expense');
+    const expenses = transactions.filter(t => {
+        if(t.type !== 'expense') return false;
+
+        const transactionDate = new Date(t.date);
+        const transactionMonth = transactionDate.getMonth();
+        const transactionYear = transactionDate.getFullYear();
+
+        return transactionMonth === month && transactionYear === year;
+    })
     // Group expenses by category and sum them up
     const expenseByCategory: { [key: string]: number } = {};
 

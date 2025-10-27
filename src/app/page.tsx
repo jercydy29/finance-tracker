@@ -39,16 +39,17 @@ export default function Dashboard() {
                     <p className="text-stone-600">Track your expenses and manage your budget</p>
                 </div>
 
-                <StatsCards transactions={transactions}/>
+                <AddTransaction onAdd={handleAdd} />
+                <StatsCards transactions={transactions} />
 
-                <ChartsPlaceholder transactions={transactions}/>
+                <ChartsPlaceholder transactions={transactions} />
 
                 <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200 mb-8">
                     <h3 className="text-lg font-medium text-stone-800 mb-4">Budget Overview</h3>
                     <p className="text-stone-500">Budget content will go here</p>
                 </div>
 
-                <AddTransaction onAdd={handleAdd} />
+
 
                 <TransactionsSection
                     transactions={transactions}
