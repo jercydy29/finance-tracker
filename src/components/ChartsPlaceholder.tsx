@@ -1,4 +1,7 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import {
+    PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid
+} from 'recharts';
 import type { Transaction } from "@/features/transactions/types";
 import { Percent } from 'lucide-react';
 type Props = {
@@ -29,6 +32,36 @@ export default function ChartsPlaceholder({ transactions }: Props) {
     }));
     // Colors for different categories
     const COLORS = ['#f59e0b', '#ef4444', '#8b5cf6', '#10b981', '#3b82f6', '#ec4899', '#f97316', '#06b6d4', '#84cc16'];
+
+    // Process transactions for Monthly Trends
+    const monthlyData: { [key: string]: { income: number; expense: number } } = {};
+    transactions.forEach(transaction => {
+        // Extract month year from date
+        const date = new Date(transaction.date);
+        const monthYear = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        const amount = parseFloat(transaction.amount);
+
+        // Initialize month if it doesn't exist
+        if (!monthlyData[monthYear]) {
+            monthlyData[monthYear] = { income: 0, expense: 0 };
+        }
+
+        // Add to appropriate category
+        if (transaction.type === 'income') {
+            monthlyData[monthYear].income += amount;
+        } else {
+            monthlyData[monthYear].expense += amount;
+        }
+    });
+
+    // Convert to array format for Recharts
+    const monthlyChartData = Object.keys(monthlyData).map(month => (
+        {
+            month: month,
+            income: monthlyData[month].income,
+            expense: monthlyData[month].expense
+        }
+    ));
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
@@ -55,7 +88,7 @@ export default function ChartsPlaceholder({ transactions }: Props) {
                                 </Pie>
                                 <Tooltip formatter={(value) => `$${value}`} />
                                 <Legend
-                                    iconType="circle"っっwっっw
+                                    iconType="circle"
                                     iconSize={12}
                                     wrapperStyle={
                                         {
@@ -75,8 +108,33 @@ export default function ChartsPlaceholder({ transactions }: Props) {
             </div >
             <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
                 <h3 className="text-lg font-medium text-stone-800 mb-4">Monthly Trends</h3>
-                <div className="h-64 bg-stone-50 rounded-lg flex items-center justify-center">
-                    <p className="text-stone-500">No data available</p>
+                <div className="h-64">
+                    {monthlyChartData.length > 0 ? (
+                        <ResponsiveContainer>
+                            <BarChart data={monthlyChartData}>
+                                <CartesianGrid strokeDasharray='3 3'/>
+                                <XAxis dataKey='month'/>
+                                <YAxis />
+                                <Tooltip />
+                                <Legend
+                                    iconType="circle"
+                                    iconSize={12}
+                                    wrapperStyle={
+                                        {
+                                            fontSize: '12px',
+                                        }
+                                    }
+                                />
+                                <Bar dataKey='income' fill= '#10b981' />
+                                <Bar dataKey='expense' fill= '#ef4444' />
+                            </BarChart>
+                            
+                        </ResponsiveContainer>
+                    ): (
+                        <div className="h-64 bg-stone-50 rounded-lg flex items-center justify-center">
+                            <p className="text-stone-500">No data available</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div >
