@@ -187,76 +187,57 @@ The finance tracker uses a professional color scheme:
 
 ## Preferred Step-by-Step Instruction Format
 
+**CRITICAL: Keep steps SMALL - one small change at a time. Don't overwhelm with large code blocks.**
+
 When providing step-by-step coding instructions, use this format:
 
 ### Step X: [Brief Title]
 
-#### WHERE TO ADD/CHANGE:
-Show the surrounding code context (not line numbers) so the user can locate exactly where to make changes.
+**WHERE:** Brief description of the location (e.g., "In `ChartsPlaceholder.tsx`, after the `availableYears` line")
 
-#### WHAT TO ADD/CHANGE:
-Show the exact code to add or modify.
+**CODE:**
+```typescript
+// Just the code to add or change - keep it small!
+const example = "code here";
+```
 
-#### THE RESULT SHOULD LOOK LIKE:
-Show how the code should look after the change is made.
+**EXPLANATION:**
 
-#### EXPLANATION:
-
-**IMPORTANT:** Break down the explanation line by line so the user can verify their understanding.
-
-For multi-line code changes:
+For multi-line code:
 - Explain each significant line individually
-- Start with "**Line X: `code snippet`**"
-- Describe what that specific line does
+- Format: **Line: `code snippet`** - explanation
 - Use simple language without jargon
 
 Then provide overall context:
-- **Why we need this overall:** Explain the big picture purpose
+- **Why we need this:** Explain the purpose
 - **Before vs After:** Show what changes in behavior
 
 **Wait for user to say "next" before proceeding to the next step.**
 
-### Example Format:
+### Example:
 
 ```
-## Step 1: Add Current Date Variables
+## Step 1: Add Year State
 
-### WHERE TO ADD:
-Look for this:
+**WHERE:** In `ChartsPlaceholder.tsx`, after the `const now = new Date();` line
+
+**CODE:**
 ```typescript
-export default function Component() {
-    // existing code
+const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 ```
 
-### WHAT TO ADD:
-Add these lines:
-```typescript
-const now = new Date();
-const currentMonth = now.getMonth();
-```
+**EXPLANATION:**
 
-### THE RESULT SHOULD LOOK LIKE:
-```typescript
-export default function Component() {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    // existing code
-```
+**Line: `const [selectedYear, setSelectedYear] = useState(now.getFullYear());`**
+- Creates state to track which year is selected
+- `selectedYear` stores the current value
+- `setSelectedYear` is the function to update it
+- `now.getFullYear()` sets initial value to current year (like 2025)
 
-### EXPLANATION:
-
-**Line 1: `const now = new Date();`**
-- Creates a new Date object representing the current moment in time
-- This captures today's date and time
-
-**Line 2: `const currentMonth = now.getMonth();`**
-- Extracts just the month number from the date object
-- Returns a number from 0-11 (0 = January, 11 = December)
-
-**Why we need this overall:**
-- These variables will be used to filter data by the current month
-- **Before:** No date filtering
-- **After:** We can compare transaction dates against the current month
+**Why we need this:**
+- Tracks user's year selection for filtering chart data
+- **Before:** No way to remember which year user selected
+- **After:** Component remembers and can filter by selected year
 ```
 
 # Important Instruction Reminders

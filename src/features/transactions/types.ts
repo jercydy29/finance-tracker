@@ -7,4 +7,3 @@ export interface Transaction {
     description: string;
     date: string; // ISO date string (YYYY-MM-DD)
 }
-

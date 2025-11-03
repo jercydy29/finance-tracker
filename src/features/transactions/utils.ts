@@ -1,7 +1,7 @@
 import { Transaction } from './types';
 
 export const formatMonth = (date: Date) =>
-  date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  date.toLocaleString('en-US', { month: 'short', year: 'numeric' });
 
 export const filterByMonth = (transactions: Transaction[], selectedDate: Date) => {
   const selectedYear = selectedDate.getFullYear();

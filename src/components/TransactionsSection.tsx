@@ -14,6 +14,13 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
     const [showMonthPicker, setShowMonthPicker] = useState(false);
     const monthPickerRef = useRef<HTMLDivElement | null>(null);
 
+    // get current year and calculate available years from transactions
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const availableYears = [...new Set(
+        transactions.map(t => new Date(t.date).getFullYear())
+    )].sort((a, b) => a - b);
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (monthPickerRef.current && !monthPickerRef.current.contains(event.target as Node)) {
@@ -70,7 +77,11 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                             d.setFullYear(selectedDate.getFullYear() - 1);
                                             setSelectedDate(d);
                                         }}
-                                        className="px-2 py-1 hover:bg-stone-100 rounded cursor-pointer"
+                                        disabled={availableYears.length > 0 && selectedDate.getFullYear() <= availableYears[0]}
+                                        className={`px-2 py-1 rounded ${availableYears.length > 0 && selectedDate.getFullYear() <= availableYears[0]
+                                            ? 'text-stone-300 cursor-not-allowed'
+                                            : 'hover:bg-stone-100 cursor-pointer'
+                                            }`}
                                     >
                                         ‹
                                     </button>
@@ -82,7 +93,13 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                             d.setFullYear(selectedDate.getFullYear() + 1);
                                             setSelectedDate(d);
                                         }}
-                                        className="px-2 py-1 hover:bg-stone-100 rounded cursor-pointer"
+                                        disabled={selectedDate.getFullYear() >= currentYear}
+                                        className={`px-2 py-1 rounded
+                                            ${selectedDate.getFullYear() >= currentYear
+                                                ? 'text-stone-300 cursor-not-allowed'
+                                                : 'hover:bg-stone-100 cursor-pointer'
+                                            }
+                                            `}
                                     >
                                         ›
                                     </button>
@@ -101,21 +118,31 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                 </div>
 
                                 <div className="grid grid-cols-3 gap-2">
-                                    {months.map((month, index) => (
-                                        <button
-                                            key={month}
-                                            onClick={() => {
-                                                const d = new Date(selectedDate);
-                                                d.setMonth(index);
-                                                setSelectedDate(d);
-                                                setShowMonthPicker(false);
-                                            }}
-                                            className={`px-4 py-2 text-sm rounded hover:bg-stone-100 ${selectedDate.getMonth() === index ? "bg-amber-600 text-white hover:bg-amber-700" : "text-stone-700"
-                                                }`}
-                                        >
-                                            {month}
-                                        </button>
-                                    ))}
+                                    {months.map((month, index) => {
+                                        const isSelected = selectedDate.getMonth() === index;
+                                        const isFutureMonth = selectedDate.getFullYear() === currentYear && index > currentMonth;
+
+                                        return (
+                                            <button
+                                                key={month}
+                                                onClick={() => {
+                                                    const d = new Date(selectedDate);
+                                                    d.setMonth(index);
+                                                    setSelectedDate(d);
+                                                    setShowMonthPicker(false);
+                                                }}
+                                                disabled={isFutureMonth}
+                                                className={`px-4 py-2 text-sm rounded ${isFutureMonth
+                                                        ? 'text-stone-300 cursor-not-allowed'
+                                                        : isSelected
+                                                            ? 'bg-amber-600 text-white hover:bg-amber-700'
+                                                            : 'text-stone-700 hover:bg-stone-100'
+                                                    }`}
+                                            >
+                                                {month}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
