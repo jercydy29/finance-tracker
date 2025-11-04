@@ -1,6 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides project-specific guidance to Claude Code (claude.ai/code) when working with this finance tracker repository.
+
+For teaching methodology and step-by-step instruction formats, see `INSTRUCTION.md`.
+
+---
 
 ## Development Commands
 
@@ -29,219 +33,186 @@ Type check the codebase:
 npm run type-check
 ```
 
+---
+
 ## Architecture Overview
 
-This is a Personal Finance Tracker built with Next.js 15 using TypeScript and the App Router architecture with the following key characteristics:
+This is a Personal Finance Tracker built with Next.js 15 using TypeScript and the App Router architecture.
 
+### Tech Stack
 - **Framework**: Next.js 15 with React 19 and TypeScript
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts for data visualization
 - **Icons**: Lucide React
 - **Date handling**: date-fns
-- **Structure**: Multi-page application with dashboard and feature-specific pages
+- **Storage**: LocalStorage (initial implementation)
+- **Structure**: Single-page dashboard (will expand to multi-page later)
 
 ### Key Files and Structure
 
 - `src/app/layout.tsx` - Root layout with global styles and metadata
 - `src/app/page.tsx` - Main dashboard with financial overview
-- `src/app/transactions/` - Transaction management pages
-- `src/app/budgets/` - Budget setting and tracking pages
-- `src/app/analytics/` - Charts and financial insights
-- `src/components/ui/` - Reusable UI components
-- `src/components/finance/` - Finance-specific components
-- `src/lib/utils.ts` - Utility functions and helpers
-- `src/types/finance.ts` - TypeScript type definitions
+- `src/components/` - React components (AddTransaction, TransactionsSection, StatsCards, etc.)
+- `src/features/transactions/` - Transaction types, constants, and utilities
 - `src/app/globals.css` - Global styles and Tailwind configuration
 
 ### Data Models
 
-Core financial data structures:
-- **Transaction**: Income/expense entries with amount, category, date, description
-- **Category**: Spending categories (Food, Transport, Entertainment, etc.)
+Core financial data structures defined in `src/features/transactions/types.ts`:
+
+**Transaction:**
+```typescript
+{
+    id: string;              // Unique identifier
+    type: 'expense' | 'income';
+    category: string;        // E.g., "Food", "Transport", "Salary"
+    amount: string;          // Keep as string for form handling
+    description: string;     // Optional details
+    date: string;           // ISO date string (YYYY-MM-DD)
+}
+```
+
+**Categories:**
+- **Expense**: Food, Transport, Entertainment, Utilities, Health, Shopping, Education, Other
+- **Income**: Salary, Freelance, Investments, Gifts, Other
+
+**Future Models:**
 - **Budget**: Monthly spending limits per category
 - **Goal**: Savings targets with progress tracking
 
 ### Design System
 
-The finance tracker uses a professional color scheme:
-- Primary: Blue-600 for financial data
-- Success: Green-500 for income/positive values
-- Warning: Orange-500 for budget warnings
-- Danger: Red-500 for overspending
-- Background: Gray-50/White for clean data presentation
+Professional color scheme for financial data:
+- **Primary**: Amber-600 for actions and highlights
+- **Success**: Emerald-600/700 for income and positive values
+- **Danger**: Red-600 for expenses and warnings
+- **Neutral**: Stone-50/100/200 for backgrounds and borders
+- **Text**: Stone-800 for primary text, Stone-500/600 for secondary
 
 ### Current Implementation Status
 
-- Project structure set up with TypeScript and Tailwind
-- Dependencies installed: recharts, lucide-react, date-fns
-- Ready for component and page development
-- Database integration pending (will use local storage initially)
+**✅ Implemented:**
+- Transaction CRUD (Create, Read, Update in progress, Delete)
+- LocalStorage persistence with data migration safety
+- Month/year filtering for transactions and charts
+- Financial stats (income, expenses, balance)
+- Data visualization (expense breakdown pie chart, monthly trends bar chart)
+- Form validation and error handling
+- Unique ID generation for transactions
 
-### Features to Implement
+**🚧 In Progress:**
+- Edit transaction functionality
 
-1. **Dashboard**: Overview with balance, recent transactions, budget status
-2. **Transaction Management**: Add, edit, delete, categorize transactions  
-3. **Budget Tracking**: Set monthly limits, track progress, alerts
-4. **Analytics**: Charts showing spending trends, category breakdowns
-5. **Goal Setting**: Savings goals with progress visualization
-6. **Data Export**: CSV export for external analysis
+**❌ Not Started:**
+- Budget tracking feature (placeholder exists)
+- Savings goals
+- Multi-page routing structure
+- Data export (CSV)
+- Advanced analytics
 
-# Claude Learning Guide
+### Features Roadmap
 
-## Core Principle
-**Start simple. Add complexity only when needed.**
+1. **Transaction Management** (90% complete)
+   - ✅ Add transactions
+   - ✅ View/filter by month
+   - ✅ Delete with confirmation
+   - 🚧 Edit existing transactions
+   - ❌ Search/advanced filtering
 
-## How to Learn with Claude
+2. **Budget Tracking** (Not started)
+   - Set monthly limits per category
+   - Track progress with visual indicators
+   - Alerts for overspending
+   - Budget vs actual comparisons
 
-### 1. Ask Direct Questions
-- "What is X?"
-- "How does Y work?"
-- "Explain Z like I'm a beginner"
+3. **Analytics** (Basic charts done)
+   - ✅ Expense breakdown by category
+   - ✅ Monthly income vs expense trends
+   - ❌ Year-over-year comparisons
+   - ❌ Spending patterns and insights
 
-### 2. Request Examples
-- "Show me a simple example"
-- "Can you demonstrate this?"
-- "What would this look like in practice?"
+4. **Goal Setting** (Not started)
+   - Create savings goals
+   - Track progress
+   - Deadline management
+   - Achievement notifications
 
-### 3. Build Understanding Step-by-Step
-- Start with basics
-- Test your understanding
-- Ask follow-up questions
-- Apply what you learned
+5. **Data Export** (Not started)
+   - CSV export functionality
+   - Date range selection
+   - Category filtering
 
-## Effective Prompting Patterns
-
-### For Learning Concepts
-```
-"Explain [topic] in simple terms"
-"What are the key points about [subject]?"
-"Break down [complex idea] into steps"
-```
-
-### For Problem-Solving
-```
-"Help me understand this problem first"
-"What's the simplest solution?"
-"Why does this approach work?"
-```
-
-### For Code and Technical Topics
-```
-"Write simple, readable code for [task]"
-"Explain what each line does"
-"Show me the minimal working example"
-```
-
-## Anti-Patterns to Avoid
-
-❌ **Don't ask for "the best" or "most optimal" solution first**
-✅ Ask for a working solution, then improve
-
-❌ **Don't request everything at once**
-✅ Break complex tasks into smaller parts
-
-❌ **Don't skip understanding the basics**
-✅ Ensure you grasp fundamentals before advancing
-
-## Learning Workflow
-
-1. **Explore** - Ask what something is
-2. **Understand** - Ask how it works
-3. **Practice** - Try simple examples
-4. **Apply** - Use in your context
-5. **Iterate** - Refine and expand
-
-## Quick Tips
-
-- If confused, ask Claude to simplify
-- Request analogies for complex topics
-- Ask "why" to deepen understanding
-- Test concepts with small experiments
-- Focus on one thing at a time
-
-## Example Conversation Starters
-
-**For beginners:**
-- "I'm new to [topic]. Where should I start?"
-- "Can you explain [concept] without jargon?"
-
-**For debugging:**
-- "Help me understand what's happening here"
-- "Let's trace through this step by step"
-
-**For learning:**
-- "What's the intuition behind [concept]?"
-- "Can you give me a real-world analogy?"
-
-## Remember
-
-- Learning is iterative
-- Questions are good
-- Start small, grow gradually
-- Understanding > memorization
-- Mistakes are learning opportunities
+6. **Multi-Page Structure** (Not started)
+   - Separate routes for Transactions, Budgets, Analytics, Goals
+   - Navigation system
+   - Shared layouts
 
 ---
 
-*Focus on understanding, not perfection. Keep it simple, keep learning.*
+## Project-Specific Preferences
 
-## Preferred Step-by-Step Instruction Format
+- **Do what has been asked; nothing more, nothing less**
+- Prefer editing existing files over creating new ones
+- Don't create documentation files unless explicitly requested
+- Keep implementations simple and focused on learning
+- Use TypeScript strictly - no implicit any types
+- Follow existing code patterns and naming conventions
+- Maintain consistent styling with Tailwind CSS utility classes
 
-**CRITICAL: Keep steps SMALL - one small change at a time. Don't overwhelm with large code blocks.**
+---
 
-When providing step-by-step coding instructions, use this format:
+## Data Storage
 
-### Step X: [Brief Title]
+**LocalStorage Key:** `finance-tracker-transactions`
 
-**WHERE:** Brief description of the location (e.g., "In `ChartsPlaceholder.tsx`, after the `availableYears` line")
+**Data Migration:**
+The app includes safety checks to ensure all transactions have unique IDs, even when loading legacy data without IDs. See `src/app/page.tsx` load effect for implementation.
 
-**CODE:**
-```typescript
-// Just the code to add or change - keep it small!
-const example = "code here";
+**Storage Format:**
+```json
+[
+  {
+    "id": "1730678730000-0",
+    "type": "expense",
+    "category": "Food",
+    "amount": "25.50",
+    "description": "Lunch",
+    "date": "2025-11-03"
+  }
+]
 ```
 
-**EXPLANATION:**
+---
 
-For multi-line code:
-- Explain each significant line individually
-- Format: **Line: `code snippet`** - explanation
-- Use simple language without jargon
+## Common Patterns Used
 
-Then provide overall context:
-- **Why we need this:** Explain the purpose
-- **Before vs After:** Show what changes in behavior
+### State Management
+- useState for local component state
+- Props drilling for parent-child communication
+- No global state management library (yet)
 
-**Wait for user to say "next" before proceeding to the next step.**
+### Form Handling
+- Controlled components with useState
+- Inline validation with error state
+- Reset form after successful submission
 
-### Example:
+### List Rendering
+- Always use unique IDs for keys (not array index)
+- Filter and sort before rendering
+- Show empty states when no data
 
+### Data Flow
 ```
-## Step 1: Add Year State
-
-**WHERE:** In `ChartsPlaceholder.tsx`, after the `const now = new Date();` line
-
-**CODE:**
-```typescript
-const [selectedYear, setSelectedYear] = useState(now.getFullYear());
-```
-
-**EXPLANATION:**
-
-**Line: `const [selectedYear, setSelectedYear] = useState(now.getFullYear());`**
-- Creates state to track which year is selected
-- `selectedYear` stores the current value
-- `setSelectedYear` is the function to update it
-- `now.getFullYear()` sets initial value to current year (like 2025)
-
-**Why we need this:**
-- Tracks user's year selection for filtering chart data
-- **Before:** No way to remember which year user selected
-- **After:** Component remembers and can filter by selected year
+User Input → Component State → Parent Handler → Update State → LocalStorage → Re-render
 ```
 
-# Important Instruction Reminders
-Do what has been asked; nothing more, nothing less.
-NEVER create files unless they're absolutely necessary for achieving your goal.
-ALWAYS prefer editing an existing file to creating a new one.
-NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+---
+
+## Notes for Claude
+
+- User is learning React and TypeScript - explain concepts clearly
+- Use the teaching methodology from `INSTRUCTION.md`
+- Follow step-by-step format when implementing features
+- Verify work before moving to next step
+- Focus on "why" in addition to "what"
+- Use concrete examples with real data in explanations

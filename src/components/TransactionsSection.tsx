@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import type { Transaction } from "@/features/transactions/types";
 import { months } from "@/features/transactions/constants";
 import { filterByMonth, formatMonth } from "@/features/transactions/utils";
-
+import { Trash2 } from "lucide-react";
 type Props = {
     transactions: Transaction[];
     selectedDate: Date;
     setSelectedDate: (d: Date) => void;
+    onDelete: (id: string) => void;
 };
 
-export default function TransactionsSection({ transactions, selectedDate, setSelectedDate }: Props) {
+export default function TransactionsSection({ transactions, selectedDate, setSelectedDate, onDelete }: Props) {
     const [showMonthPicker, setShowMonthPicker] = useState(false);
     const monthPickerRef = useRef<HTMLDivElement | null>(null);
 
@@ -133,10 +134,10 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                                 }}
                                                 disabled={isFutureMonth}
                                                 className={`px-4 py-2 text-sm rounded ${isFutureMonth
-                                                        ? 'text-stone-300 cursor-not-allowed'
-                                                        : isSelected
-                                                            ? 'bg-amber-600 text-white hover:bg-amber-700'
-                                                            : 'text-stone-700 hover:bg-stone-100'
+                                                    ? 'text-stone-300 cursor-not-allowed'
+                                                    : isSelected
+                                                        ? 'bg-amber-600 text-white hover:bg-amber-700'
+                                                        : 'text-stone-700 hover:bg-stone-100'
                                                     }`}
                                             >
                                                 {month}
@@ -157,16 +158,28 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
             ) : (
                 <ul className="divide-y divide-stone-200">
                     {recent8.map((t, i) => (
-                        <li key={i} className="py-3 flex justify-between items-center">
+                        <li key={t.id} className="py-3 flex justify-between items-center group">
                             <div>
                                 <p className="text-sm font-medium text-stone-800">{t.category}</p>
-                                <p className="text-xs text-stone-500">{t.description || "—"}</p>
+                                <p className="text-xs text-stone-500">{t.description || '_'}</p>
                             </div>
-                            <div className="text-right">
-                                <p className={`text-sm font-medium ${t.type === "expense" ? "text-red-600" : "text-emerald-700"}`}>
-                                    {t.type === "expense" ? "-" : "+"}${t.amount}
-                                </p>
-                                <p className="text-xs text-stone-500">{t.date}</p>
+                            <div className="flex items-center gap-3">
+                                <div className="text-right">
+                                    <p className={`text-sm font-medium ${t.type === 'expense'
+                                        ? 'text-red-600'
+                                        : 'text-emerald-700'
+                                    }`}>
+                                        {t.type === 'expense' ? '-' : '+'}${t.amount}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => onDelete(t.id)}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1
+                                     text-red-600 hover:bg-red-50 rounded text-sm"
+                                     title="Delete transaction"
+                                >
+                                    <Trash2 size={16}/>
+                                </button>
                             </div>
                         </li>
                     ))}

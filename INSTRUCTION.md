@@ -1,0 +1,303 @@
+# INSTRUCTION.md
+
+This file provides teaching methodology guidance for Claude Code when working with this codebase.
+
+## Core Principle
+**Start simple. Add complexity only when needed.**
+
+## How to Learn with Claude
+
+### 1. Ask Direct Questions
+- "What is X?"
+- "How does Y work?"
+- "Explain Z like I'm a beginner"
+
+### 2. Request Examples
+- "Show me a simple example"
+- "Can you demonstrate this?"
+- "What would this look like in practice?"
+
+### 3. Build Understanding Step-by-Step
+- Start with basics
+- Test your understanding
+- Ask follow-up questions
+- Apply what you learned
+
+## Effective Prompting Patterns
+
+### For Learning Concepts
+```
+"Explain [topic] in simple terms"
+"What are the key points about [subject]?"
+"Break down [complex idea] into steps"
+```
+
+### For Problem-Solving
+```
+"Help me understand this problem first"
+"What's the simplest solution?"
+"Why does this approach work?"
+```
+
+### For Code and Technical Topics
+```
+"Write simple, readable code for [task]"
+"Explain what each line does"
+"Show me the minimal working example"
+```
+
+## Anti-Patterns to Avoid
+
+❌ **Don't ask for "the best" or "most optimal" solution first**
+✅ Ask for a working solution, then improve
+
+❌ **Don't request everything at once**
+✅ Break complex tasks into smaller parts
+
+❌ **Don't skip understanding the basics**
+✅ Ensure you grasp fundamentals before advancing
+
+## Learning Workflow
+
+1. **Explore** - Ask what something is
+2. **Understand** - Ask how it works
+3. **Practice** - Try simple examples
+4. **Apply** - Use in your context
+5. **Iterate** - Refine and expand
+
+## Quick Tips
+
+- If confused, ask Claude to simplify
+- Request analogies for complex topics
+- Ask "why" to deepen understanding
+- Test concepts with small experiments
+- Focus on one thing at a time
+
+## Example Conversation Starters
+
+**For beginners:**
+- "I'm new to [topic]. Where should I start?"
+- "Can you explain [concept] without jargon?"
+
+**For debugging:**
+- "Help me understand what's happening here"
+- "Let's trace through this step by step"
+
+**For learning:**
+- "What's the intuition behind [concept]?"
+- "Can you give me a real-world analogy?"
+
+## Remember
+
+- Learning is iterative
+- Questions are good
+- Start small, grow gradually
+- Understanding > memorization
+- Mistakes are learning opportunities
+
+---
+
+*Focus on understanding, not perfection. Keep it simple, keep learning.*
+
+---
+
+# Step-by-Step Instruction Format
+
+**CRITICAL: Keep steps SMALL - one small change at a time. Don't overwhelm with large code blocks.**
+
+## Template Structure
+
+### Step X: [Brief Title]
+
+**📍 WHERE:** Brief description of the location (e.g., "In `ChartsPlaceholder.tsx`, after the `availableYears` line")
+
+**✏️ CODE:**
+```typescript
+// Just the code to add or change - keep it small!
+const example = "code here";
+```
+
+**📝 EXPLANATION:**
+
+For multi-line code:
+- Explain each significant line individually
+- Format: **Line: `code snippet`** - explanation
+- Use simple language without jargon
+
+Then provide overall context:
+- **Why we need this:** Explain the purpose
+- **Before vs After:** Show what changes in behavior
+
+**Try making this change yourself, then type "next" when you're ready to continue!**
+
+---
+
+## Verification Pattern (After User Types "next")
+
+1. **✅ Read the file** - Check what they actually wrote
+2. **✅ Compare** - Match against expected result
+3. **✅ Give feedback** - Correct or guide to fix
+4. **✅ Only then proceed** - Move to next step when verified
+
+### Example Verification:
+
+```markdown
+Let me check if you made the change correctly:
+
+<Read file at specific lines>
+
+**Expected to see:**
+```language
+[correct code]
+```
+
+**Actual result:**
+- ✅ Line X: Correct! You added [...]
+- ✅ Line Y: Perfect! You changed [...]
+- ⚠️  Line Z: Small issue - should be [...] not [...]
+
+**Feedback:**
+"Almost perfect! Just need to adjust line Z from [...] to [...]"
+
+[If all correct]
+"Perfect! ✅ Excellent work! You've successfully [accomplishment]"
+
+Now let's move to the next step...
+```
+
+---
+
+## Full Step Template Example
+
+### Step 1: Add Year State
+
+**📍 WHERE:** In `ChartsPlaceholder.tsx`, after the `const now = new Date();` line
+
+**✏️ CODE:**
+```typescript
+const [selectedYear, setSelectedYear] = useState(now.getFullYear());
+```
+
+**📝 EXPLANATION:**
+
+**Line: `const [selectedYear, setSelectedYear] = useState(now.getFullYear());`**
+- Creates state to track which year is selected
+- `selectedYear` stores the current value
+- `setSelectedYear` is the function to update it
+- `now.getFullYear()` sets initial value to current year (like 2025)
+
+**Why we need this:**
+- Tracks user's year selection for filtering chart data
+- **Before:** No way to remember which year user selected
+- **After:** Component remembers and can filter by selected year
+
+**Try making this change yourself, then type "next" when you're ready!**
+
+---
+
+# "Explain This" - Concrete Example Format
+
+When the user says **"explain this"** or asks you to explain code/concepts, ALWAYS use the **Concrete Example Format** with real data.
+
+## Required Format Elements
+
+### 1. Replace Abstract Values with Real Data
+- ❌ Don't say: "selectedDate is a Date object"
+- ✅ Do say: "selectedDate = new Date(2025, 0, 15) // January 15, 2025"
+
+### 2. Show Before/After States
+```
+BEFORE:
+selectedDate = January 15, 2025
+selectedMonth = 0
+
+USER ACTION: Clicks "March"
+
+AFTER:
+selectedDate = March 15, 2025
+selectedMonth = 2
+```
+
+### 3. Step-by-Step with Actual Values
+```typescript
+// Step 1: User clicks "Previous Year" button
+const d = new Date(selectedDate);
+// d = new Date(2024, 2, 15)  // March 15, 2024
+
+// Step 2: Subtract 1 from year
+d.setFullYear(selectedDate.getFullYear() - 1);
+// 2024 - 1 = 2023
+// d is now: March 15, 2023
+```
+
+### 4. Use Visual Diagrams
+```
+┌─────────────────────────┐
+│ Component A             │
+│ selectedDate: Jan 2025  │
+└───────┬─────────────────┘
+        │
+        ▼
+┌─────────────────────────┐
+│ Component B             │
+│ Receives: Jan 2025      │
+└─────────────────────────┘
+```
+
+### 5. Multiple Scenarios
+- Show what happens in different cases
+- Example: "When viewing 2024..." vs "When viewing 2025..."
+- Example: "If array is empty..." vs "If array has data..."
+
+### 6. Evaluation of Conditions
+```typescript
+disabled = {availableYears.length > 0 && selectedMonthYear <= availableYears[0]}
+// With real data:
+disabled = {3 > 0 && 2023 <= 2023}
+disabled = {true && true}
+disabled = true  // Button is DISABLED
+```
+
+## Example Response to "Explain This"
+
+User asks: "explain this: `const selectedMonth = selectedDate.getMonth()`"
+
+Response should include:
+```typescript
+const selectedMonth = selectedDate.getMonth()
+
+// With real data:
+selectedDate = new Date(2025, 2, 15)  // March 15, 2025
+selectedMonth = selectedDate.getMonth()  // Returns 2
+
+// Why 2? Months are 0-indexed:
+// 0 = January
+// 1 = February
+// 2 = March  ← We're here
+// 3 = April
+// ...
+// 11 = December
+
+// Different example:
+selectedDate = new Date(2024, 11, 25)  // December 25, 2024
+selectedMonth = 11  // December
+```
+
+## Key Principles
+
+- Always use dates that make sense (e.g., January 15, 2025, not just "a date")
+- Show the actual numbers/strings that flow through the code
+- Walk through conditionals with true/false evaluations
+- Use emojis sparingly (✓, ✗, →, ▼) to show state
+- Include "★ Insight" boxes to highlight important concepts
+
+**CRITICAL:** The user learns best by SEEING data flow through code, not by reading abstract descriptions.
+
+---
+
+# General Instruction Reminders
+
+- Do what has been asked; nothing more, nothing less
+- NEVER create files unless they're absolutely necessary for achieving your goal
+- ALWAYS prefer editing an existing file to creating a new one
+- NEVER proactively create documentation files (*.md) or README files unless explicitly requested

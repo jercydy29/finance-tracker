@@ -13,6 +13,7 @@ export default function AddTransaction({ onAdd }: Props) {
     const [showForm, setShowForm] = useState(false);
     const [errors, setErrors] = useState({ category: false, amount: false });
     const [newTransaction, setNewTransaction] = useState<Transaction>({
+        id: '',
         type: "expense",
         category: "",
         amount: "",
@@ -32,8 +33,13 @@ export default function AddTransaction({ onAdd }: Props) {
         // only submit if no errors
 
         if (!newErrors.category && !newErrors.amount) {
-            onAdd(newTransaction);
+            const transactionWithId = {
+                ...newTransaction,
+                id: Date.now().toString()
+            }
+            onAdd(transactionWithId);
             setNewTransaction({
+                id: '',
                 type: "expense",
                 category: "",
                 amount: "",

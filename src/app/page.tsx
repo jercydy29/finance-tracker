@@ -31,6 +31,11 @@ export default function Dashboard() {
         setTransactions((prev) => [...prev, t])
     }
 
+    const handleDelete = (id: string) => {
+        if (window.confirm('Are you sure you want to delete this transaction?')) {
+            setTransactions((prev) => prev.filter((t) => t.id !== id));
+        }
+    }
     return (
         <div className="min-h-screen bg-stone-50 p-6" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
             <div className="max-w-7xl mx-auto">
@@ -43,7 +48,7 @@ export default function Dashboard() {
                 <StatsCards transactions={transactions} />
 
                 <ChartsPlaceholder transactions={transactions} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                <h2>selected Year: {selectedDate.getFullYear()}</h2>
+
                 <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200 mb-8">
                     <h3 className="text-lg font-medium text-stone-800 mb-4">Budget Overview</h3>
                     <p className="text-stone-500">Budget content will go here</p>
@@ -55,6 +60,7 @@ export default function Dashboard() {
                     transactions={transactions}
                     selectedDate={selectedDate}
                     setSelectedDate={setSelectedDate}
+                    onDelete={handleDelete}
                 />
             </div>
         </div>
