@@ -168,17 +168,17 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                     <p className={`text-sm font-medium ${t.type === 'expense'
                                         ? 'text-red-600'
                                         : 'text-emerald-700'
-                                    }`}>
+                                        }`}>
                                         {t.type === 'expense' ? '-' : '+'}${t.amount}
                                     </p>
                                 </div>
                                 <button
                                     onClick={() => onDelete(t.id)}
                                     className="opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1
-                                     text-red-600 hover:bg-red-50 rounded text-sm"
-                                     title="Delete transaction"
+                                     text-red-600 hover:bg-red-50 rounded text-sm cursor-pointer"
+                                    title="Delete transaction"
                                 >
-                                    <Trash2 size={16}/>
+                                    <Trash2 size={16} />
                                 </button>
                             </div>
                         </li>

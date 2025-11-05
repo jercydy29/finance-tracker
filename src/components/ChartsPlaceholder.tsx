@@ -155,6 +155,9 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
     // calculate year totals for summary
     const yearTotalIncome = monthlyChartData.reduce((sum, month) => sum + month.income, 0);
     const yearTotalExpense = monthlyChartData.reduce((sum, month) => sum + month.expense, 0);
+
+    // Calculate minimum chart width based on data point
+    const chartMinWidth = Math.max(600, monthlyChartData.length * 60)
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
@@ -184,8 +187,8 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
                                             }}
                                             disabled={availableYears.length > 0 && selectedDate.getFullYear() <= availableYears[0]}
                                             className={`px-2 py-1 rounded ${availableYears.length > 0 && selectedDate.getFullYear() <= availableYears[0]
-                                                    ? 'text-stone-300 cursor-not-allowed'
-                                                    : 'hover:bg-stone-100 cursor-pointer'
+                                                ? 'text-stone-300 cursor-not-allowed'
+                                                : 'hover:bg-stone-100 cursor-pointer'
                                                 }`}
                                         >
                                             ‹
@@ -199,8 +202,8 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
                                             }}
                                             disabled={selectedDate.getFullYear() >= currentYear}
                                             className={`px-2 py-1 rounded ${selectedDate.getFullYear() >= currentYear
-                                                    ? 'text-stone-300 cursor-not-allowed'
-                                                    : 'hover:bg-stone-100 cursor-pointer'
+                                                ? 'text-stone-300 cursor-not-allowed'
+                                                : 'hover:bg-stone-100 cursor-pointer'
                                                 }`}
                                         >
                                             ›
@@ -333,28 +336,29 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
                         )}
                     </div>
                 </div>
-                <div className="h-64">
+                <div className="h-64 overflow-x-auto overflow-y-hidden">
                     {monthlyChartData.length > 0 ? (
-                        <ResponsiveContainer>
-                            <BarChart data={monthlyChartData}>
-                                <CartesianGrid strokeDasharray='3 3' />
-                                <XAxis dataKey='month' />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend
-                                    iconType="circle"
-                                    iconSize={12}
-                                    wrapperStyle={
-                                        {
-                                            fontSize: '12px',
+                        <div style={{ minWidth: `${chartMinWidth}px`, height: '100%' }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={monthlyChartData}>
+                                    <CartesianGrid strokeDasharray='3 3' />
+                                    <XAxis dataKey='month' />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend
+                                        iconType="circle"
+                                        iconSize={12}
+                                        wrapperStyle={
+                                            {
+                                                fontSize: '12px',
+                                            }
                                         }
-                                    }
-                                />
-                                <Bar dataKey='income' fill='#10b981' />
-                                <Bar dataKey='expense' fill='#ef4444' />
-                            </BarChart>
-
-                        </ResponsiveContainer>
+                                    />
+                                    <Bar dataKey='income' fill='#10b981' />
+                                    <Bar dataKey='expense' fill='#ef4444' />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
                     ) : (
                         <div className="h-64 bg-stone-50 rounded-lg flex items-center justify-center">
                             <p className="text-stone-500">No data available</p>
