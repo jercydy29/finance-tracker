@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { categories as defaultCategories } from "@/features/transactions/constants";
 import { expenseCategories, incomeCategories } from "@/features/transactions/constants";
 import type { Transaction } from "@/features/transactions/types";
@@ -7,9 +7,12 @@ import type { Transaction } from "@/features/transactions/types";
 
 type Props = {
     onAdd: (t: Transaction) => void;
+    editingTransaction: Transaction | null;
+    onEdit: (t: Transaction) => void;
+    onCancelEdit: () => void;
 };
 
-export default function AddTransaction({ onAdd }: Props) {
+export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCancelEdit }: Props) {
     const [showForm, setShowForm] = useState(false);
     const [errors, setErrors] = useState({ category: false, amount: false });
     const [newTransaction, setNewTransaction] = useState<Transaction>({
@@ -20,6 +23,14 @@ export default function AddTransaction({ onAdd }: Props) {
         description: "",
         date: new Date().toISOString().split("T")[0],
     });
+    const formRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (editingTransaction) {
+            setNewTransaction(editingTransaction);
+            setShowForm(true)
+            formRef.current?.scrollIntoView({behavior: 'smooth', block: 'start'})
+        }
+    }, [editingTransaction])
 
     const handleSubmit = () => {
 
@@ -33,11 +44,16 @@ export default function AddTransaction({ onAdd }: Props) {
         // only submit if no errors
 
         if (!newErrors.category && !newErrors.amount) {
-            const transactionWithId = {
-                ...newTransaction,
-                id: Date.now().toString()
+            if (editingTransaction) {
+                // Edit mode: update existing transaction
+                onEdit(newTransaction)
+            } else {
+                const transactionWithId = {
+                    ...newTransaction,
+                    id: Date.now().toString()
+                }
+                onAdd(transactionWithId);
             }
-            onAdd(transactionWithId);
             setNewTransaction({
                 id: '',
                 type: "expense",
@@ -52,9 +68,10 @@ export default function AddTransaction({ onAdd }: Props) {
     };
 
     return (
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200 mb-8">
+        <div ref={formRef} className="bg-white rounded-lg p-6 shadow-sm border border-stone-200 mb-8">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-stone-800">Add Transaction</h3>
+                <h3 className="text-lg font-medium text-stone-800">
+                    {editingTransaction ? 'Edit Transaction' : 'Add Transaction'}</h3>
                 <button
                     onClick={() => setShowForm(!showForm)}
                     className="flex items-center space-x-2 bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors cursor-pointer"
@@ -156,12 +173,21 @@ export default function AddTransaction({ onAdd }: Props) {
                                     placeholder="Enter description"
                                 />
                             </div>
-                            <div className="col-span-2 flex justify-end">
+                            <div className="col-span-2 flex justify-end gap-2">
+                                {editingTransaction && (
+                                    <button
+                                        onClick={onCancelEdit}
+                                        className="bg-stone-500 text-white px-3 py-2 rounded-lg text-sm font-medium
+                                        hover:bg-stone-600 cursor-pointer"
+                                    >
+                                        Cancel
+                                    </button>
+                                )}
                                 <button
                                     onClick={handleSubmit}
                                     className="bg-emerald-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 cursor-pointer"
                                 >
-                                    Save Transaction
+                                    {editingTransaction ? 'Update Transaction' : 'Save Transaction'}
                                 </button>
                             </div>
                         </div>

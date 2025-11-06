@@ -12,6 +12,8 @@ export default function Dashboard() {
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [selectedDate, setSelectedDate] = useState<Date>(new Date())
 
+    // it take Transaction object or null and its initial value is null
+    const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null)
     // Load transactions from localStorage on component mount
     useEffect(() => {
         const savedTransactions = localStorage.getItem(STORAGE_KEY);
@@ -36,6 +38,12 @@ export default function Dashboard() {
             setTransactions((prev) => prev.filter((t) => t.id !== id));
         }
     }
+
+    const handleEdit = (updatedTransaction: Transaction) => {
+        setTransactions((prev) =>
+            prev.map((t) => t.id === updatedTransaction.id ? updatedTransaction : t));
+        setEditingTransaction(null);
+    }
     return (
         <div className="min-h-screen bg-stone-50 p-6" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
             <div className="max-w-7xl mx-auto">
@@ -44,7 +52,13 @@ export default function Dashboard() {
                     <p className="text-stone-600">Track your expenses and manage your budget</p>
                 </div>
 
-                <AddTransaction onAdd={handleAdd} />
+                <AddTransaction
+                    onAdd={handleAdd}
+                    editingTransaction={editingTransaction}
+                    onEdit={handleEdit}
+                    onCancelEdit={() => setEditingTransaction(null)
+                    }
+                />
                 <StatsCards transactions={transactions} />
 
                 <ChartsPlaceholder transactions={transactions} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
@@ -61,6 +75,7 @@ export default function Dashboard() {
                     selectedDate={selectedDate}
                     setSelectedDate={setSelectedDate}
                     onDelete={handleDelete}
+                    onEdit={(transaction) => setEditingTransaction(transaction)}
                 />
             </div>
         </div>

@@ -3,17 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import type { Transaction } from "@/features/transactions/types";
 import { months } from "@/features/transactions/constants";
 import { filterByMonth, formatMonth } from "@/features/transactions/utils";
-import { Trash2 } from "lucide-react";
+import { Trash2, Pencil } from "lucide-react";
 type Props = {
     transactions: Transaction[];
     selectedDate: Date;
     setSelectedDate: (d: Date) => void;
     onDelete: (id: string) => void;
+    onEdit: (t: Transaction) => void;
 };
 
-export default function TransactionsSection({ transactions, selectedDate, setSelectedDate, onDelete }: Props) {
+export default function TransactionsSection({ transactions, selectedDate, setSelectedDate, onDelete, onEdit }: Props) {
     const [showMonthPicker, setShowMonthPicker] = useState(false);
     const monthPickerRef = useRef<HTMLDivElement | null>(null);
+
+
 
     // get current year and calculate available years from transactions
     const currentYear = new Date().getFullYear();
@@ -164,14 +167,14 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                 <p className="text-xs text-stone-500">{t.description || '_'}</p>
                             </div>
                             <div className="flex items-center gap-3">
-                                <div className="text-right">
-                                    <p className={`text-sm font-medium ${t.type === 'expense'
-                                        ? 'text-red-600'
-                                        : 'text-emerald-700'
-                                        }`}>
-                                        {t.type === 'expense' ? '-' : '+'}${t.amount}
-                                    </p>
-                                </div>
+                                <button
+                                    onClick={() => onEdit(t)}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1
+       text-amber-600 hover:bg-amber-50 rounded text-sm cursor-pointer"
+                                    title="Edit transaction"
+                                >
+                                    <Pencil size={16} />
+                                </button>
                                 <button
                                     onClick={() => onDelete(t.id)}
                                     className="opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1
@@ -180,6 +183,15 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                                 >
                                     <Trash2 size={16} />
                                 </button>
+                                <div className="text-right">
+                                    <p className={`text-sm font-medium ${t.type === 'expense'
+                                        ? 'text-red-600'
+                                        : 'text-emerald-700'
+                                        }`}>
+                                        {t.type === 'expense' ? '-' : '+'}${t.amount}
+                                    </p>
+                                </div>
+
                             </div>
                         </li>
                     ))}
