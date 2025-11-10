@@ -59,7 +59,9 @@ export default function Dashboard() {
                     onCancelEdit={() => setEditingTransaction(null)
                     }
                 />
-                <StatsCards transactions={transactions} />
+                <StatsCards transactions={transactions}
+                selectedDate={selectedDate}
+                />
 
                 <ChartsPlaceholder transactions={transactions} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 

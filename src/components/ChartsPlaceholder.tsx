@@ -150,7 +150,12 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
             income: monthlyData[month].income,
             expense: monthlyData[month].expense
         }
-    ));
+    ))
+    .sort((a, b) => {
+        const dateA = new Date(a.month);
+        const dateB = new Date(b.month);
+        return dateA.getTime() - dateB.getTime();
+    })
 
     // calculate year totals for summary
     const yearTotalIncome = monthlyChartData.reduce((sum, month) => sum + month.income, 0);

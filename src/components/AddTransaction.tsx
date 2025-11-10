@@ -66,6 +66,20 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
             setShowForm(false);
         }
     };
+    const handleCancel = () => {
+        setNewTransaction({
+            id: '',
+            type: 'expense',
+            category: '',
+            amount: '',
+            description: '',
+            date: new Date().toISOString().split('T')[0],
+        });
+        setErrors({category: false, amount: false});
+        setShowForm(false);
+        onCancelEdit();
+        
+    }
 
     return (
         <div ref={formRef} className="bg-white rounded-lg p-6 shadow-sm border border-stone-200 mb-8">
@@ -176,7 +190,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
                             <div className="col-span-2 flex justify-end gap-2">
                                 {editingTransaction && (
                                     <button
-                                        onClick={onCancelEdit}
+                                        onClick={handleCancel}
                                         className="bg-stone-500 text-white px-3 py-2 rounded-lg text-sm font-medium
                                         hover:bg-stone-600 cursor-pointer"
                                     >

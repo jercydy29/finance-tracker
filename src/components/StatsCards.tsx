@@ -1,15 +1,19 @@
 import type { Transaction } from "@/features/transactions/types"
+import { filterByMonth } from '../features/transactions/utils';
+
 type Props = {
     transactions: Transaction[];
+    selectedDate: Date;
 }
-export default function StatsCards({ transactions }: Props) {
+export default function StatsCards({ transactions, selectedDate }: Props) {
+    const filteredTransactions = filterByMonth(transactions, selectedDate);
     // Calculate total income
-    const totalIncome = transactions
+    const totalIncome = filteredTransactions
         .filter(t => t.type === 'income')
         .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
     // Calculate total expenses
-    const totalExpenses = transactions
+    const totalExpenses = filteredTransactions
         .filter(t => t.type === 'expense')
         .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
