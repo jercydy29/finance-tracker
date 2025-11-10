@@ -15,6 +15,7 @@ type Props = {
 export default function TransactionsSection({ transactions, selectedDate, setSelectedDate, onDelete, onEdit }: Props) {
     const [showMonthPicker, setShowMonthPicker] = useState(false);
     const monthPickerRef = useRef<HTMLDivElement | null>(null);
+    const [showAll, setShowAll] = useState(false);
 
 
 
@@ -49,9 +50,9 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
     }, [showMonthPicker]);
 
     const filteredTransactions = filterByMonth(transactions, selectedDate);
-    const recent8 = [...filteredTransactions]
-        .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)))
-        .slice(0, 8);
+    const sortedTransactions = [...filteredTransactions]
+        .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
+    const displayedTransactions = showAll ? sortedTransactions : sortedTransactions.slice(0, 8);
 
     return (
         <div className="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
@@ -160,11 +161,13 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                 </p>
             ) : (
                 <ul className="divide-y divide-stone-200">
-                    {recent8.map((t, i) => (
+                    {displayedTransactions.map((t, i) => (
                         <li key={t.id} className="py-3 flex justify-between items-center group">
                             <div>
                                 <p className="text-sm font-medium text-stone-800">{t.category}</p>
                                 <p className="text-xs text-stone-500">{t.description || '_'}</p>
+                                <p className="text-xs text-stone-400">{new
+                                    Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                             </div>
                             <div className="flex items-center gap-3">
                                 <button
@@ -196,6 +199,14 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                         </li>
                     ))}
                 </ul>
+            )}
+            {filteredTransactions.length > 8 && (
+                <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="mt-4 w-full py-2 text-sm text-amber-600 hover:text-amber-700 font-medium transaction-colors"
+                >
+                    {showAll ? 'See Less' : `See More (${filteredTransactions.length - 8} more)`}
+                </button>
             )}
         </div>
     );
