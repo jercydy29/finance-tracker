@@ -8,3 +8,17 @@ export interface Transaction {
     description: string;
     date: string; // ISO date string (YYYY-MM-DD)
 }
+
+export interface Budget {
+    category: string;
+    limit: number;
+}
+
+export interface BudgetProgress {
+    category: string;
+    limit: number;
+    spent: number;
+    remaining: number;
+    percentage: number;
+    isOverBudget: boolean;
+}

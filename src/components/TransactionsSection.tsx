@@ -75,7 +75,7 @@ export default function TransactionsSection({ transactions, selectedDate, setSel
                     {showMonthPicker && (
                         <div className="absolute right-0 top-full mt-2 bg-white border border-stone-200 rounded-lg shadow-lg p-4 z-10">
                             <div className="w-64">
-                                <div className="flex justify-between items-center mb-4">
+                                <div className="flex justify-between items-center mb-4 text-stone-800">
                                     <button
                                         onClick={() => {
                                             const d = new Date(selectedDate);

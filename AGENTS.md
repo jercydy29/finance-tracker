@@ -1,6 +1,230 @@
-# INSTRUCTION.md
+# CLAUDE.md
 
-This file provides teaching methodology guidance for Claude Code when working with this codebase.
+This file provides project-specific guidance to Claude Code (claude.ai/code) when working with this finance tracker repository.
+
+**This file includes:**
+- Development commands and architecture overview
+- Project preferences and patterns
+- Teaching methodology and instruction formats
+
+---
+
+## Development Commands
+
+Start development server:
+```bash
+npm run dev
+```
+
+Build the application:
+```bash
+npm run build
+```
+
+Start production server:
+```bash
+npm run start
+```
+
+Lint the codebase:
+```bash
+npm run lint
+```
+
+Type check the codebase:
+```bash
+npm run type-check
+```
+
+---
+
+## Architecture Overview
+
+This is a Personal Finance Tracker built with Next.js 15 using TypeScript and the App Router architecture.
+
+### Tech Stack
+- **Framework**: Next.js 15 with React 19 and TypeScript
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts for data visualization
+- **Icons**: Lucide React
+- **Date handling**: date-fns
+- **Storage**: LocalStorage (initial implementation)
+- **Structure**: Single-page dashboard (will expand to multi-page later)
+
+### Key Files and Structure
+
+- `src/app/layout.tsx` - Root layout with global styles and metadata
+- `src/app/page.tsx` - Main dashboard with financial overview
+- `src/components/` - React components (AddTransaction, TransactionsSection, StatsCards, etc.)
+- `src/features/transactions/` - Transaction types, constants, and utilities
+- `src/app/globals.css` - Global styles and Tailwind configuration
+
+### Data Models
+
+Core financial data structures defined in `src/features/transactions/types.ts`:
+
+**Transaction:**
+```typescript
+{
+    id: string;              // Unique identifier
+    type: 'expense' | 'income';
+    category: string;        // E.g., "Food", "Transport", "Salary"
+    amount: string;          // Keep as string for form handling
+    description: string;     // Optional details
+    date: string;           // ISO date string (YYYY-MM-DD)
+}
+```
+
+**Categories:**
+- **Expense**: Food, Transport, Entertainment, Utilities, Health, Shopping, Education, Other
+- **Income**: Salary, Freelance, Investments, Gifts, Other
+
+**Future Models:**
+- **Budget**: Monthly spending limits per category
+- **Goal**: Savings targets with progress tracking
+
+### Design System
+
+Professional color scheme for financial data:
+- **Primary**: Amber-600 for actions and highlights
+- **Success**: Emerald-600/700 for income and positive values
+- **Danger**: Red-600 for expenses and warnings
+- **Neutral**: Stone-50/100/200 for backgrounds and borders
+- **Text**: Stone-800 for primary text, Stone-500/600 for secondary
+
+### Current Implementation Status
+
+**✅ Implemented:**
+- Transaction CRUD (Create, Read, Update in progress, Delete)
+- LocalStorage persistence with data migration safety
+- Month/year filtering for transactions and charts
+- Financial stats (income, expenses, balance)
+- Data visualization (expense breakdown pie chart, monthly trends bar chart)
+- Form validation and error handling
+- Unique ID generation for transactions
+
+**🚧 In Progress:**
+- Edit transaction functionality
+
+**❌ Not Started:**
+- Budget tracking feature (placeholder exists)
+- Savings goals
+- Multi-page routing structure
+- Data export (CSV)
+- Advanced analytics
+
+### Features Roadmap
+
+1. **Transaction Management** (90% complete)
+   - ✅ Add transactions
+   - ✅ View/filter by month
+   - ✅ Delete with confirmation
+   - 🚧 Edit existing transactions
+   - ❌ Search/advanced filtering
+
+2. **Budget Tracking** (Not started)
+   - Set monthly limits per category
+   - Track progress with visual indicators
+   - Alerts for overspending
+   - Budget vs actual comparisons
+
+3. **Analytics** (Basic charts done)
+   - ✅ Expense breakdown by category
+   - ✅ Monthly income vs expense trends
+   - ❌ Year-over-year comparisons
+   - ❌ Spending patterns and insights
+
+4. **Goal Setting** (Not started)
+   - Create savings goals
+   - Track progress
+   - Deadline management
+   - Achievement notifications
+
+5. **Data Export** (Not started)
+   - CSV export functionality
+   - Date range selection
+   - Category filtering
+
+6. **Multi-Page Structure** (Not started)
+   - Separate routes for Transactions, Budgets, Analytics, Goals
+   - Navigation system
+   - Shared layouts
+
+---
+
+## Project-Specific Preferences
+
+- **Do what has been asked; nothing more, nothing less**
+- Prefer editing existing files over creating new ones
+- Don't create documentation files unless explicitly requested
+- Keep implementations simple and focused on learning
+- Use TypeScript strictly - no implicit any types
+- Follow existing code patterns and naming conventions
+- Maintain consistent styling with Tailwind CSS utility classes
+
+---
+
+## Data Storage
+
+**LocalStorage Key:** `finance-tracker-transactions`
+
+**Data Migration:**
+The app includes safety checks to ensure all transactions have unique IDs, even when loading legacy data without IDs. See `src/app/page.tsx` load effect for implementation.
+
+**Storage Format:**
+```json
+[
+  {
+    "id": "1730678730000-0",
+    "type": "expense",
+    "category": "Food",
+    "amount": "25.50",
+    "description": "Lunch",
+    "date": "2025-11-03"
+  }
+]
+```
+
+---
+
+## Common Patterns Used
+
+### State Management
+- useState for local component state
+- Props drilling for parent-child communication
+- No global state management library (yet)
+
+### Form Handling
+- Controlled components with useState
+- Inline validation with error state
+- Reset form after successful submission
+
+### List Rendering
+- Always use unique IDs for keys (not array index)
+- Filter and sort before rendering
+- Show empty states when no data
+
+### Data Flow
+```
+User Input → Component State → Parent Handler → Update State → LocalStorage → Re-render
+```
+
+---
+
+## Notes for Claude
+
+- User is learning React and TypeScript - explain concepts clearly
+- Use the teaching methodology defined below
+- Follow step-by-step format when implementing features
+- Verify work before moving to next step
+- Focus on "why" in addition to "what"
+- Use concrete examples with real data in explanations
+
+---
+
+# Teaching Methodology
+
+This section provides teaching methodology guidance for Claude Code when working with this codebase.
 
 ## Core Principle
 **Start simple. Add complexity only when needed.**
@@ -97,17 +321,13 @@ This file provides teaching methodology guidance for Claude Code when working wi
 
 ---
 
-*Focus on understanding, not perfection. Keep it simple, keep learning.*
-
----
-
-# Step-by-Step Instruction Format
+## Step-by-Step Instruction Format
 
 **CRITICAL: Keep steps SMALL - one small change at a time. Don't overwhelm with large code blocks.**
 
-## Template Structure
+### Template Structure
 
-### Step X: [Brief Title]
+#### Step X: [Brief Title]
 
 **📍 WHERE:** Brief description of the location (e.g., "In `ChartsPlaceholder.tsx`, after the `availableYears` line")
 
@@ -132,14 +352,14 @@ Then provide overall context:
 
 ---
 
-## Verification Pattern (After User Types "next")
+### Verification Pattern (After User Types "next")
 
 1. **✅ Read the file** - Check what they actually wrote
 2. **✅ Compare** - Match against expected result
 3. **✅ Give feedback** - Correct or guide to fix
 4. **✅ Only then proceed** - Move to next step when verified
 
-### Example Verification:
+#### Example Verification:
 
 ```markdown
 Let me check if you made the change correctly:
@@ -167,9 +387,9 @@ Now let's move to the next step...
 
 ---
 
-## Full Step Template Example
+### Full Step Template Example
 
-### Step 1: Add Year State
+#### Step 1: Add Year State
 
 **📍 WHERE:** In `ChartsPlaceholder.tsx`, after the `const now = new Date();` line
 
@@ -195,17 +415,17 @@ const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
 ---
 
-# "Explain This" - Concrete Example Format
+## "Explain This" - Concrete Example Format
 
 When the user says **"explain this"** or asks you to explain code/concepts, ALWAYS use the **Concrete Example Format** with real data.
 
-## Required Format Elements
+### Required Format Elements
 
-### 1. Replace Abstract Values with Real Data
+#### 1. Replace Abstract Values with Real Data
 - ❌ Don't say: "selectedDate is a Date object"
 - ✅ Do say: "selectedDate = new Date(2025, 0, 15) // January 15, 2025"
 
-### 2. Show Before/After States
+#### 2. Show Before/After States
 ```
 BEFORE:
 selectedDate = January 15, 2025
@@ -218,7 +438,7 @@ selectedDate = March 15, 2025
 selectedMonth = 2
 ```
 
-### 3. Step-by-Step with Actual Values
+#### 3. Step-by-Step with Actual Values
 ```typescript
 // Step 1: User clicks "Previous Year" button
 const d = new Date(selectedDate);
@@ -230,7 +450,7 @@ d.setFullYear(selectedDate.getFullYear() - 1);
 // d is now: March 15, 2023
 ```
 
-### 4. Use Visual Diagrams
+#### 4. Use Visual Diagrams
 ```
 ┌─────────────────────────┐
 │ Component A             │
@@ -244,12 +464,12 @@ d.setFullYear(selectedDate.getFullYear() - 1);
 └─────────────────────────┘
 ```
 
-### 5. Multiple Scenarios
+#### 5. Multiple Scenarios
 - Show what happens in different cases
 - Example: "When viewing 2024..." vs "When viewing 2025..."
 - Example: "If array is empty..." vs "If array has data..."
 
-### 6. Evaluation of Conditions
+#### 6. Evaluation of Conditions
 ```typescript
 disabled = {availableYears.length > 0 && selectedMonthYear <= availableYears[0]}
 // With real data:
@@ -258,7 +478,7 @@ disabled = {true && true}
 disabled = true  // Button is DISABLED
 ```
 
-## Example Response to "Explain This"
+### Example Response to "Explain This"
 
 User asks: "explain this: `const selectedMonth = selectedDate.getMonth()`"
 
@@ -283,7 +503,7 @@ selectedDate = new Date(2024, 11, 25)  // December 25, 2024
 selectedMonth = 11  // December
 ```
 
-## Key Principles
+### Key Principles
 
 - Always use dates that make sense (e.g., January 15, 2025, not just "a date")
 - Show the actual numbers/strings that flow through the code
@@ -295,9 +515,13 @@ selectedMonth = 11  // December
 
 ---
 
-# General Instruction Reminders
+## General Instruction Reminders
 
 - Do what has been asked; nothing more, nothing less
 - NEVER create files unless they're absolutely necessary for achieving your goal
 - ALWAYS prefer editing an existing file to creating a new one
 - NEVER proactively create documentation files (*.md) or README files unless explicitly requested
+
+---
+
+*Focus on understanding, not perfection. Keep it simple, keep learning.*

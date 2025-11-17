@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Overview Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-50 p-6">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-light text-stone-800 mb-8">Budget Overview Design Options</h1>
+
+        <!-- Option 1: Single Budget (All Months) -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-medium text-stone-800 mb-2">Option 1: Single Budget Per Category (Applies to All Months)</h2>
+            <p class="text-stone-600 mb-4">Set one budget limit per category. Same limit applies every month.</p>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-medium text-stone-800">Budget Overview - November 2025</h3>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700">
+                        Set Budgets
+                    </button>
+                </div>
+
+                <!-- Food Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Food</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $1,000</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-red-600">$947</p>
+                            <p class="text-sm text-stone-500">$53 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-amber-600 h-3 rounded-full" style="width: 94.7%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">94.7% used</p>
+                </div>
+
+                <!-- Transport Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Transport</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $150</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$89</p>
+                            <p class="text-sm text-stone-500">$61 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 59.3%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">59.3% used</p>
+                </div>
+
+                <!-- Entertainment Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Entertainment</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $300</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$0</p>
+                            <p class="text-sm text-stone-500">$300 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">0% used</p>
+                </div>
+
+                <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Pros:</strong> Simple to set up, consistent budgets every month<br>
+                        <strong>Cons:</strong> Can't adjust for seasonal variations (e.g., higher heating in winter)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 2: Per-Month Budgets -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-medium text-stone-800 mb-2">Option 2: Different Budgets Per Month</h2>
+            <p class="text-stone-600 mb-4">Set custom budget limits for each category each month. Flexible but requires more setup.</p>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-lg font-medium text-stone-800">Budget Overview</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <select class="px-3 py-1 border border-stone-300 rounded text-sm">
+                                <option>November 2025</option>
+                                <option>December 2025</option>
+                                <option>January 2026</option>
+                            </select>
+                            <span class="text-xs text-stone-500">← Select month</span>
+                        </div>
+                    </div>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700">
+                        Edit November Budget
+                    </button>
+                </div>
+
+                <!-- Food Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Food</h4>
+                            <p class="text-sm text-stone-500">Nov Limit: $1,200 <span class="text-xs">(Oct: $1,000)</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$947</p>
+                            <p class="text-sm text-stone-500">$253 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 78.9%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">78.9% used</p>
+                </div>
+
+                <!-- Utilities Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Utilities</h4>
+                            <p class="text-sm text-stone-500">Nov Limit: $100 <span class="text-xs">(Oct: $150)</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$0</p>
+                            <p class="text-sm text-stone-500">$100 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">0% used (Lower than usual - fall season)</p>
+                </div>
+
+                <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Pros:</strong> Flexible for seasonal changes, holidays, special months<br>
+                        <strong>Cons:</strong> More work to set up each month, can forget to update
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 3: With Overspending Alerts -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-medium text-stone-800 mb-2">Option 3A: With Overspending Alerts (90% Warning)</h2>
+            <p class="text-stone-600 mb-4">Visual warnings when approaching or exceeding budget limits.</p>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-medium text-stone-800">Budget Overview - November 2025</h3>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700">
+                        Set Budgets
+                    </button>
+                </div>
+
+                <!-- Food Budget - Warning -->
+                <div class="mb-4 p-4 bg-amber-50 rounded-lg border-2 border-amber-300">
+                    <div class="flex items-start gap-2 mb-2">
+                        <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Food</h4>
+                                    <p class="text-sm text-amber-700 font-medium">⚠️ 94.7% of budget used</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-semibold text-amber-700">$947</p>
+                                    <p class="text-sm text-stone-600">of $1,000 limit</p>
+                                </div>
+                            </div>
+                            <div class="w-full bg-stone-200 rounded-full h-3">
+                                <div class="bg-amber-500 h-3 rounded-full" style="width: 94.7%"></div>
+                            </div>
+                            <p class="text-xs text-amber-700 mt-1 font-medium">Only $53 remaining this month!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shopping Budget - Over Budget -->
+                <div class="mb-4 p-4 bg-red-50 rounded-lg border-2 border-red-300">
+                    <div class="flex items-start gap-2 mb-2">
+                        <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Shopping</h4>
+                                    <p class="text-sm text-red-700 font-bold">🚨 OVER BUDGET</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-2xl font-semibold text-red-600">$195</p>
+                                    <p class="text-sm text-stone-600">of $150 limit</p>
+                                </div>
+                            </div>
+                            <div class="w-full bg-stone-200 rounded-full h-3">
+                                <div class="bg-red-600 h-3 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <p class="text-xs text-red-700 mt-1 font-bold">$45 over budget (130%)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport Budget - Good -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Transport</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $150</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$89</p>
+                            <p class="text-sm text-stone-500">$61 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 59.3%"></div>
+                    </div>
+                    <p class="text-xs text-emerald-700 mt-1 font-medium">✓ On track</p>
+                </div>
+
+                <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Alert Levels:</strong><br>
+                        • Green (0-89%): On track ✓<br>
+                        • Amber (90-99%): Warning ⚠️<br>
+                        • Red (100%+): Over budget 🚨
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 4: All Categories vs Only Budgeted -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-medium text-stone-800 mb-2">Option 4A: Show All Expense Categories</h2>
+            <p class="text-stone-600 mb-4">Display all 8 expense categories, even without budgets set.</p>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-medium text-stone-800">Budget Overview - November 2025</h3>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700">
+                        Set Budgets
+                    </button>
+                </div>
+
+                <!-- Food - Has Budget -->
+                <div class="mb-3 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Food</h4>
+                            <p class="text-xs text-stone-500">Spent: $947 / Limit: $1,000</p>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="w-full bg-stone-200 rounded-full h-2">
+                                <div class="bg-amber-600 h-2 rounded-full" style="width: 94.7%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport - Has Budget -->
+                <div class="mb-3 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Transport</h4>
+                            <p class="text-xs text-stone-500">Spent: $89 / Limit: $150</p>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="w-full bg-stone-200 rounded-full h-2">
+                                <div class="bg-emerald-600 h-2 rounded-full" style="width: 59.3%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entertainment - No Budget -->
+                <div class="mb-3 p-3 bg-white rounded-lg border border-stone-200 border-dashed">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-stone-500">Entertainment</h4>
+                            <p class="text-xs text-stone-400">No budget set • Spent: $0</p>
+                        </div>
+                        <button class="text-xs text-amber-600 hover:text-amber-700 font-medium">+ Set Budget</button>
+                    </div>
+                </div>
+
+                <!-- Utilities - No Budget -->
+                <div class="mb-3 p-3 bg-white rounded-lg border border-stone-200 border-dashed">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium text-stone-500">Utilities</h4>
+                            <p class="text-xs text-stone-400">No budget set • Spent: $0</p>
+                        </div>
+                        <button class="text-xs text-amber-600 hover:text-amber-700 font-medium">+ Set Budget</button>
+                    </div>
+                </div>
+
+                <!-- Remaining categories collapsed -->
+                <button class="text-sm text-stone-500 hover:text-stone-700 mt-2">
+                    + 4 more categories without budgets...
+                </button>
+
+                <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Pros:</strong> See all categories, easy to add budgets<br>
+                        <strong>Cons:</strong> Can be cluttered if you only track a few categories
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option 4B -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-medium text-stone-800 mb-2">Option 4B: Show Only Categories With Budgets</h2>
+            <p class="text-stone-600 mb-4">Display only categories that have budget limits set. Clean and focused.</p>
+
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-medium text-stone-800">Budget Overview - November 2025</h3>
+                    <button class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700">
+                        + Add Budget
+                    </button>
+                </div>
+
+                <!-- Food - Has Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Food</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $1,000</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-amber-600">$947</p>
+                            <p class="text-sm text-stone-500">$53 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-amber-600 h-3 rounded-full" style="width: 94.7%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">94.7% used</p>
+                </div>
+
+                <!-- Transport - Has Budget -->
+                <div class="mb-4 p-4 bg-stone-50 rounded-lg">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium text-stone-800">Transport</h4>
+                            <p class="text-sm text-stone-500">Monthly Limit: $150</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-semibold text-emerald-700">$89</p>
+                            <p class="text-sm text-stone-500">$61 remaining</p>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-200 rounded-full h-3">
+                        <div class="bg-emerald-600 h-3 rounded-full" style="width: 59.3%"></div>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-1">59.3% used</p>
+                </div>
+
+                <div class="mt-6 p-4 bg-stone-100 rounded-lg text-center">
+                    <p class="text-sm text-stone-600 mb-3">Track more categories?</p>
+                    <button class="px-4 py-2 bg-white border border-stone-300 text-stone-700 rounded-lg text-sm font-medium hover:bg-stone-50">
+                        + Add Budget for Entertainment, Utilities, Health...
+                    </button>
+                </div>
+
+                <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p class="text-sm text-blue-800">
+                        <strong>Pros:</strong> Clean, focused view of what matters<br>
+                        <strong>Cons:</strong> Need extra clicks to see which categories are available
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Comparison -->
+        <div class="bg-gradient-to-r from-amber-50 to-stone-50 rounded-lg p-6 shadow-sm border-2 border-amber-200">
+            <h2 class="text-2xl font-medium text-stone-800 mb-4">📊 Quick Comparison</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-lg">
+                    <h3 class="font-semibold text-stone-800 mb-2">Recommended: Simple Start</h3>
+                    <ul class="text-sm text-stone-700 space-y-1">
+                        <li>✓ <strong>Option 1:</strong> Single budget per category</li>
+                        <li>✓ <strong>Option 3A:</strong> With overspending alerts</li>
+                        <li>✓ <strong>Option 4B:</strong> Show only budgeted categories</li>
+                    </ul>
+                    <p class="text-xs text-stone-500 mt-3">Best for learning, easiest to implement and use</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg">
+                    <h3 class="font-semibold text-stone-800 mb-2">Advanced: Full Flexibility</h3>
+                    <ul class="text-sm text-stone-700 space-y-1">
+                        <li>✓ <strong>Option 2:</strong> Different budgets per month</li>
+                        <li>✓ <strong>Option 3A:</strong> With overspending alerts</li>
+                        <li>✓ <strong>Option 4A:</strong> Show all categories</li>
+                    </ul>
+                    <p class="text-xs text-stone-500 mt-3">More features, more complexity</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
