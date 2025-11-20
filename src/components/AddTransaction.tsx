@@ -19,7 +19,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
         id: '',
         type: "expense",
         category: "",
-        amount: "",
+        amount: 0,
         description: "",
         date: new Date().toISOString().split("T")[0],
     });
@@ -37,7 +37,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
         // check for errors
         const newErrors = {
             category: !newTransaction.category,
-            amount: !newTransaction.amount || parseFloat(newTransaction.amount) <= 0,
+            amount: !newTransaction.amount || newTransaction.amount <= 0,
         }
         setErrors(newErrors);
 
@@ -48,17 +48,13 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
                 // Edit mode: update existing transaction
                 onEdit(newTransaction)
             } else {
-                const transactionWithId = {
-                    ...newTransaction,
-                    id: Date.now().toString()
-                }
-                onAdd(transactionWithId);
+                onAdd(newTransaction);
             }
             setNewTransaction({
                 id: '',
                 type: "expense",
                 category: "",
-                amount: "",
+                amount: 0,
                 description: "",
                 date: new Date().toISOString().split("T")[0],
             });
@@ -71,7 +67,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
             id: '',
             type: 'expense',
             category: '',
-            amount: '',
+            amount: 0,
             description: '',
             date: new Date().toISOString().split('T')[0],
         });
@@ -153,7 +149,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
                                     type="number"
                                     value={newTransaction.amount}
                                     onChange={(e) => {
-                                        setNewTransaction({ ...newTransaction, amount: e.target.value });
+                                        setNewTransaction({ ...newTransaction, amount: parseFloat(e.target.value) || 0 });
                                         // Clear error if amount becomes valid
                                         if (e.target.value && parseFloat(e.target.value) > 0) {
                                             setErrors({ ...errors, amount: false });
