@@ -147,7 +147,7 @@ export default function AddTransaction({ onAdd, editingTransaction, onEdit, onCa
                                 </label>
                                 <input
                                     type="number"
-                                    value={newTransaction.amount}
+                                    value={newTransaction.amount || ''}
                                     onChange={(e) => {
                                         setNewTransaction({ ...newTransaction, amount: parseFloat(e.target.value) || 0 });
                                         // Clear error if amount becomes valid

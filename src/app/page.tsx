@@ -45,9 +45,24 @@ export default function Dashboard() {
 
         setLoading(false);
     };
+    
+    const fetchBudgets = async() => {
+        const {data, error} = await supabase
+            .from('budgets')
+            .select('*')
+            .order('category', {ascending: true});
+        if (error) {
+            console.error('Error fetching budgets:', error);
+            return;
+        }
+        if (data) {
+            setBudgets(data);
+        }
+    }
     // calling async function inside useEffect to fetch data on mount
     useEffect(() => {
         fetchTransactions();
+        fetchBudgets();
     }, []);
 
     const handleAdd = async (t: Transaction) => {
@@ -106,15 +121,19 @@ export default function Dashboard() {
         fetchTransactions();
     }
 
-    const handleUpdateBudget = (category: string, limit: number) => {
-        setBudgets((prev) => {
-            const existing = prev.find((b) => b.category === category);
-            if (existing) {
-                return prev.map((b) => b.category === category ? { category, limit } : b);
-            } else {
-                return [...prev, { category, limit }];
-            }
-        })
+    const handleUpdateBudget = async(category: string, amount: number) => {
+        const {error} = await supabase
+            .from('budgets')
+            .upsert(
+                { category, amount},
+                {onConflict: 'category'}
+            );
+        if (error) {
+            console.error('Error updating budget:', error);
+            setError(error.message);
+            return;
+        }
+        fetchBudgets();
     }
     return (
         <div className="min-h-screen bg-stone-50 p-6" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>

@@ -7,7 +7,7 @@ interface BudgetOverviewProps {
     transactions: Transaction[]
     budgets: Budget[]
     selectedDate: Date
-    onUpdateBudget: (category: string, limit: number) => void
+    onUpdateBudget: (category: string, amount: number) => void
 }
 export default function BudgetOverview({ transactions, budgets, selectedDate, onUpdateBudget }: BudgetOverviewProps) {
     const [showSetLimit, setShowSetLimit] = useState(false);
@@ -19,7 +19,7 @@ export default function BudgetOverview({ transactions, budgets, selectedDate, on
         const selectedYear = selectedDate.getFullYear();
         return expenseCategories.map((category) => {
             const budget = budgets.find((b) => b.category === category);
-            const limit = budget?.limit || 0;
+            const amount = budget?.amount || 0;
 
             const spent = transactions
                 .filter((t) => {
@@ -31,12 +31,12 @@ export default function BudgetOverview({ transactions, budgets, selectedDate, on
                         transactionDate.getFullYear() === selectedYear
                     );
                 })
-                .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                .reduce((sum, t) => sum + (t.amount), 0);
 
-            const remaining = limit - spent;
-            const percentage = limit > 0 ? (spent / limit) * 100 : 0;
-            const isOverBudget = spent > limit && limit > 0;
-            return { category, limit, spent, remaining, percentage, isOverBudget };
+            const remaining = amount - spent;
+            const percentage = amount > 0 ? (spent / amount) * 100 : 0;
+            const isOverBudget = spent > amount && amount > 0;
+            return { category, amount, spent, remaining, percentage, isOverBudget };
         });
     }
     const getProgressColor = (percentage: number): string => {
@@ -61,11 +61,11 @@ export default function BudgetOverview({ transactions, budgets, selectedDate, on
                 {calculateBudgetProgress().map((item) => (
                     <div key={item.category} className="border border-stone-200 rounded-lg p-4">
                         <p className="text-stone-800 font-medium">{item.category}</p>
-                        {item.limit > 0 ? (
+                        {item.amount > 0 ? (
                             <div className="mt-2">
                                 <div className="flex justify-between text-sm mb-1">
                                     <span className="text-stone-600">
-                                        ${item.spent.toFixed(2)} / ${item.limit.toFixed(2)}
+                                        ${item.spent.toFixed(2)} / ${item.amount.toFixed(2)}
                                     </span>
                                     <span className="text-stone-500">
                                         {item.percentage.toFixed(0)}%
@@ -109,7 +109,7 @@ export default function BudgetOverview({ transactions, budgets, selectedDate, on
                                         <input
                                             type="number"
                                             placeholder="Enter limit"
-                                            defaultValue={existingBudget?.limit || ''}
+                                            defaultValue={existingBudget?.amount || ''}
                                             onBlur={(e) => {
                                                 const newLimit = parseFloat(e.target.value) || 0;
                                                 onUpdateBudget(category, newLimit);
