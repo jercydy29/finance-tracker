@@ -103,7 +103,7 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
 
     expenses.forEach(transaction => {
         const category = transaction.category;
-        const amount = parseFloat(transaction.amount);
+        const amount = transaction.amount;
 
         if (expenseByCategory[category]) {
             expenseByCategory[category] += amount;
@@ -128,7 +128,7 @@ export default function ChartsPlaceholder({ transactions, selectedDate, setSelec
             // Extract month year from date
             const date = new Date(transaction.date);
             const monthYear = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-            const amount = parseFloat(transaction.amount);
+            const amount = transaction.amount;
 
             // Initialize month if it doesn't exist
             if (!monthlyData[monthYear]) {

@@ -10,12 +10,12 @@ export default function StatsCards({ transactions, selectedDate }: Props) {
     // Calculate total income
     const totalIncome = filteredTransactions
         .filter(t => t.type === 'income')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum + t.amount, 0);
 
     // Calculate total expenses
     const totalExpenses = filteredTransactions
         .filter(t => t.type === 'expense')
-        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        .reduce((sum, t) => sum +  t.amount, 0);
 
     // Calculate balance
     const balance = totalIncome - totalExpenses;
